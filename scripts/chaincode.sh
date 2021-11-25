@@ -5,6 +5,8 @@ CCNAME=$2
 # CCNAME="keyval"
 LANG=golang
 LABEL=${CCNAME}v1
+LOCAL_CHAINCODE_PATH=src/${CCURL}
+
 cat <<EOF
 echo "getting chaincode for ${ORG} ${PEER}"
 go version
@@ -13,9 +15,10 @@ go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 echo "set go goproxy,end"
 go get -d ${CCURL}
+echo "------"
 ls
-LOCAL_CHAINCODE_PATH=go/src/${CCURL}
-echo " LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
+echo "------"
+echo "LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
 echo "packaging chaincode for ${ORG} ${PEER}"
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
 echo "installing chaincode on ${ORG} ${PEER}"
