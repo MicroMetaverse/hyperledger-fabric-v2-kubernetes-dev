@@ -6,7 +6,8 @@ CCNAME=$2
 LANG=golang
 LABEL=${CCNAME}v1
 #>=go 1.16 
-LOCAL_CHAINCODE_PATH=/go/src/${CCURL}
+# LOCAL_CHAINCODE_PATH=/go/src/${CCURL}
+LOCAL_CHAINCODE_PATH=/go/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 
 cat <<EOF
 echo "getting chaincode for ${ORG} ${PEER}"
@@ -20,6 +21,8 @@ echo "---go get -d ${CCURL}"
 go get -d ${CCURL}
 echo "---go get -d ${CCURL}"
 
+# TODO git clone https://github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
+git clone https://github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
 echo "---ls /go/src---"
 ls /go
 echo "------"
