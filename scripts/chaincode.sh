@@ -16,6 +16,11 @@ go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 echo "set go goproxy,end"
 go get -d ${CCURL}
+
+echo "---ls /go/src---"
+ls /go/src
+echo "---ls /go/src---"
+
 echo "---ls ${LOCAL_CHAINCODE_PATH}---"
 ls ${LOCAL_CHAINCODE_PATH}
 echo "---ls ${LOCAL_CHAINCODE_PATH}---"
