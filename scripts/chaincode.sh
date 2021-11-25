@@ -23,10 +23,12 @@ echo "---ls---"
 ls
 echo "---ls---"
 echo "LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
-echo "packaging chaincode for ${ORG} ${PEER}"
+echo "packaging chaincode for ${ORG} ${PEER},peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}"
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
-echo "installing chaincode on ${ORG} ${PEER}"
+echo "---packaging chaincode for ${ORG} ${PEER},end"
+echo "installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
 peer lifecycle chaincode install ${CCNAME}.tar.gz
+echo "---installing chaincode on ${ORG} ${PEER},end"
 EOF
 }
 
