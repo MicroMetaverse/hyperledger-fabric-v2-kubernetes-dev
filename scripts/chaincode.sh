@@ -16,6 +16,7 @@ go env -w GOPROXY=https://goproxy.cn,direct
 echo "set go goproxy,end"
 go get -d ${CCURL}
 echo "------"
+pwd
 ls
 echo "------"
 echo "LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
