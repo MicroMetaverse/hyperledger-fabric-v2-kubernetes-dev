@@ -7,6 +7,7 @@ LANG=golang
 LABEL=${CCNAME}v1
 cat <<EOF
 echo "getting chaincode for ${ORG} ${PEER}"
+go version
 echo "set go goproxy"
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
