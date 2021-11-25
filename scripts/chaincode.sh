@@ -15,10 +15,15 @@ echo "set go goproxy"
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 echo "set go goproxy,end"
+
+echo "---go get -d ${CCURL}"
 go get -d ${CCURL}
+echo "---go get -d ${CCURL}"
 
 echo "---ls /go/src---"
+ls /go
 ls /go/src
+ls /go/pkg
 echo "---ls /go/src---"
 
 echo "---ls ${LOCAL_CHAINCODE_PATH}---"
