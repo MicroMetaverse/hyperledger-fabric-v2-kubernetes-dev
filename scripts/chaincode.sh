@@ -22,7 +22,9 @@ echo "---go get -d ${CCURL}"
 
 echo "---ls /go/src---"
 ls /go
+echo "------"
 ls /go/src
+echo "------"
 ls /go/pkg
 echo "---ls /go/src---"
 
