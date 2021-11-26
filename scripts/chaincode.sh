@@ -21,8 +21,9 @@ echo "---go get -d ${CCURL}"
 go get -d ${CCURL}
 echo "---go get -d ${CCURL}"
 
-# TODO git clone https://github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
-git clone https://github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
+# no code in src,  git clone https://gitclone.com/github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
+git clone https://gitclone.com/github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
+
 echo "---ls /go/src---"
 ls /go
 echo "------"
@@ -41,10 +42,10 @@ echo "---ls---"
 ls
 echo "---ls---"
 echo "LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
-echo "packaging chaincode for ${ORG} ${PEER},peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}"
+echo "---packaging chaincode for ${ORG} ${PEER},peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}"
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
 echo "---packaging chaincode for ${ORG} ${PEER},end"
-echo "installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
+echo "---installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
 peer lifecycle chaincode install ${CCNAME}.tar.gz
 echo "---installing chaincode on ${ORG} ${PEER},end"
 EOF
