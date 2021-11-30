@@ -31,7 +31,7 @@ spec:
         ports:
         - containerPort: 5984
       - name: fabric-peer
-        image: hyperledger/fabric-peer:2.3.3
+        image: hyperledger/fabric-peer:2.3
         resources: {}
         envFrom:
         - configMapRef:
