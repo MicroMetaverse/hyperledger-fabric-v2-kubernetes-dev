@@ -10,7 +10,7 @@ LABEL=${CCNAME}v1
 LOCAL_CHAINCODE_PATH=/go/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 
 cat <<EOF
-echo "getting chaincode for ${ORG} ${PEER}"
+echo "---getting chaincode for ${ORG} ${PEER}"
 go version
 echo "set go goproxy"
 go env -w GO111MODULE=on
@@ -25,40 +25,14 @@ echo "---go get -d ${CCURL}"
 # no code in src,  git clone https://gitclone.com/github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
 git clone https://gitclone.com/github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
 
-echo "---ls /go/src---"
-ls /go
-echo "------"
-ls /go/src
-echo "------"
-ls /go/pkg
-echo "---ls /go/src---"
-
-echo "---ls ${LOCAL_CHAINCODE_PATH}---"
-ls ${LOCAL_CHAINCODE_PATH}
-echo "---ls ${LOCAL_CHAINCODE_PATH}---"
-echo "---pwd---"
-pwd
-echo "---pwd---"
 echo "---ls---"
 ls
 echo "---ls---"
-echo "LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
+go get -v github.com/hyperledger/fabric-chaincode-go@v0.0.0-20200128192331-2d899240a7ed
 
-echo "---packaging chaincode for ${ORG} ${PEER},peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}"
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
-echo "---packaging chaincode for ${ORG} ${PEER},end"
-
-echo "set go goproxy"
-go env -w GO111MODULE=on
-go env -w GOPROXY=https://goproxy.io,direct
-go env | grep GOPROXY
-echo "set go goproxy,end"
-
-go get github.com/hyperledger/fabric-chaincode-go@v0.0.0-20200128192331-2d899240a7ed
-
-echo "---installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
 peer lifecycle chaincode install ${CCNAME}.tar.gz
-echo "---installing chaincode on ${ORG} ${PEER},end"
+
 EOF
 }
 
