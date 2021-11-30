@@ -14,7 +14,7 @@ echo "getting chaincode for ${ORG} ${PEER}"
 go version
 echo "set go goproxy"
 go env -w GO111MODULE=on
-go env -w GOPROXY=https://goproxy.cn,direct
+go env -w GOPROXY=https://goproxy.io,direct
 echo "set go goproxy,end"
 
 echo "---go get -d ${CCURL}"
@@ -42,9 +42,16 @@ echo "---ls---"
 ls
 echo "---ls---"
 echo "LOCAL_CHAINCODE_PATH for ${LOCAL_CHAINCODE_PATH}"
+
 echo "---packaging chaincode for ${ORG} ${PEER},peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}"
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
 echo "---packaging chaincode for ${ORG} ${PEER},end"
+
+echo "set go goproxy"
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.io,direct
+echo "set go goproxy,end"
+
 echo "---installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
 peer lifecycle chaincode install ${CCNAME}.tar.gz
 echo "---installing chaincode on ${ORG} ${PEER},end"
