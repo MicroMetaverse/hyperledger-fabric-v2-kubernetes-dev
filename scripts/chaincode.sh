@@ -15,6 +15,7 @@ go version
 echo "set go goproxy"
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.io,direct
+go env | grep GOPROXY
 echo "set go goproxy,end"
 
 echo "---go get -d ${CCURL}"
@@ -50,6 +51,7 @@ echo "---packaging chaincode for ${ORG} ${PEER},end"
 echo "set go goproxy"
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.io,direct
+go env | grep GOPROXY
 echo "set go goproxy,end"
 
 echo "---installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
