@@ -54,6 +54,8 @@ go env -w GOPROXY=https://goproxy.io,direct
 go env | grep GOPROXY
 echo "set go goproxy,end"
 
+go get github.com/hyperledger/fabric-chaincode-go@v0.0.0-20200128192331-2d899240a7ed
+
 echo "---installing chaincode on ${ORG} ${PEER},peer lifecycle chaincode install ${CCNAME}.tar.gz"
 peer lifecycle chaincode install ${CCNAME}.tar.gz
 echo "---installing chaincode on ${ORG} ${PEER},end"
