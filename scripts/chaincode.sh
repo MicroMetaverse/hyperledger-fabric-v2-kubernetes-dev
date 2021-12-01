@@ -37,11 +37,6 @@ go env -w GO111MODULE=on
 go mod vendor
 cd -
 
-echo "---ls---"
-ls
-echo "---ls---"
-
-
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
 peer lifecycle chaincode install ${CCNAME}.tar.gz
 
