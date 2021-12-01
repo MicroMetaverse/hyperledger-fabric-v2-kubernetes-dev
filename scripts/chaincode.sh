@@ -23,6 +23,7 @@ go get -d ${CCURL}
 echo "---go get -d ${CCURL}"
 
 # no code in src,  git clone https://gitclone.com/github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
+rm -rf hyperledger-fabric-v2-kubernetes-dev
 git clone https://gitclone.com/github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev.git
 
 echo "---ls---"
