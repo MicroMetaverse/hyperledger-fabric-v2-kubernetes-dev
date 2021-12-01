@@ -1,6 +1,6 @@
 module github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 
-go 1.16
+go 1.12
 
 require (
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20200128192331-2d899240a7ed
