@@ -29,7 +29,18 @@ git clone https://hub.fastgit.org/MicroMetaverse/hyperledger-fabric-v2-kubernete
 echo "---ls---"
 ls
 echo "---ls---"
-go get -v github.com/hyperledger/fabric-chaincode-go@v0.0.0-20200128192331-2d899240a7ed
+
+# https://blog.csdn.net/bean_business/article/details/110008244
+cd ${LOCAL_CHAINCODE_PATH}
+go env -w GOPROXY=https://goproxy.io,direct
+go env -w GO111MODULE=on
+go mod vendor
+cd -
+
+echo "---ls---"
+ls
+echo "---ls---"
+
 
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
 peer lifecycle chaincode install ${CCNAME}.tar.gz
