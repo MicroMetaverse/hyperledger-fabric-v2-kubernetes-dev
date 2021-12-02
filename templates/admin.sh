@@ -22,7 +22,7 @@ spec:
         app: admin
     spec:
       containers:
-      - image: hyperledger/fabric-tools:2.3
+      - image: hyperledger/fabric-tools:2.3.3
         name: fabric-tools
         command: ["sh", "-c", "while true; do echo $(date); sleep 3600; done"]
         envFrom:
