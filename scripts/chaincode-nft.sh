@@ -1,13 +1,12 @@
 packageAndInstall() {
   CCURL=$1
   CCNAME=$2
-  # CCURL="github.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode"
-  # CCNAME="keyval"
+
   LANG=golang
   LABEL=${CCNAME}v1
   #>=go 1.16
   # LOCAL_CHAINCODE_PATH=/go/src/${CCURL}
-  LOCAL_CHAINCODE_PATH=/go/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
+  LOCAL_CHAINCODE_PATH=/go/hyperledger-fabric-v2-kubernetes-dev/${CCNAME}
 
   cat <<EOF
 echo "---getting chaincode for ${ORG} ${PEER}"

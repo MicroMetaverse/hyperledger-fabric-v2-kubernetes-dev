@@ -1,3 +1,5 @@
 channel-artifacts
 crypto-config
 typescript
+/key-value-chaincode/vendor/
+/nft-chaincode/vendor/

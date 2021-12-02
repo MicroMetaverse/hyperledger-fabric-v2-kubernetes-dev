@@ -2,13 +2,13 @@
 
 source ./scripts/generate-crypto-artifacts.sh
 source ./scripts/create-secrets.sh
-source ./scripts/chaincode.sh
+source ./scripts/chaincode-nft.sh
 
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
-export CHANNEL_ID=allorgs             # anything
-# export CCURL=github.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
-export CCURL=github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
-export CCNAME=key-value-chaincode
+export CHANNEL_ID=nft             # anything
+# export CCURL=github.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/nft-chaincode
+export CCURL=github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/nft-chaincode
+export CCNAME=nft-chaincode
 
 createNamespaces() {
 	for NS in org1 org2 org3 org4 org5; do
