@@ -7,13 +7,13 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-// NFTContract contract for handling writing and reading from the world state
-type NFTContract struct {
+// ERC721Contract contract for handling writing and reading from the world state
+type ERC721Contract struct {
 	contractapi.Contract
 }
 
 // Create adds a new key with value to the world state
-func (sc *NFTContract) Create(ctx contractapi.TransactionContextInterface, key string, value string) error {
+func (sc *ERC721Contract) Create(ctx contractapi.TransactionContextInterface, key string, value string) error {
 	existing, err := ctx.GetStub().GetState(key)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func (sc *NFTContract) Create(ctx contractapi.TransactionContextInterface, key s
 }
 
 // Update changes the value with key in the world state
-func (sc *NFTContract) Update(ctx contractapi.TransactionContextInterface, key string, value string) error {
+func (sc *ERC721Contract) Update(ctx contractapi.TransactionContextInterface, key string, value string) error {
 	existing, err := ctx.GetStub().GetState(key)
 
 	if err != nil {
@@ -55,7 +55,7 @@ func (sc *NFTContract) Update(ctx contractapi.TransactionContextInterface, key s
 }
 
 // Read returns the value at key in the world state
-func (sc *NFTContract) Read(ctx contractapi.TransactionContextInterface, key string) (string, error) {
+func (sc *ERC721Contract) Read(ctx contractapi.TransactionContextInterface, key string) (string, error) {
 	existing, err := ctx.GetStub().GetState(key)
 
 	if err != nil {

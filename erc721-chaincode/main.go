@@ -5,9 +5,9 @@ import (
 )
 
 func main() {
-	nftContract := new(NFTContract)
+	erc721Contract := new(ERC721Contract)
 
-	cc, err := contractapi.NewChaincode(nftContract)
+	cc, err := contractapi.NewChaincode(erc721Contract)
 
 	if err != nil {
 		panic(err.Error())

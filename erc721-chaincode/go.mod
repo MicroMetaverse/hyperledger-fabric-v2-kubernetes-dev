@@ -1,4 +1,4 @@
-module github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/nft-chaincode
+module github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/erc721-chaincode
 
 go 1.16
 
