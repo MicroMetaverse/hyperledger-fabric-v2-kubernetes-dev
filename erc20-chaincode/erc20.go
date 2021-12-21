@@ -16,8 +16,8 @@ const totalSupplyKey = "totalSupply"
 // Define objectType names for prefix
 const allowancePrefix = "allowance"
 
-// SmartContract provides functions for transferring tokens between accounts
-type SmartContract struct {
+// ERC20Contract provides functions for transferring tokens between accounts
+type ERC20Contract struct {
 	contractapi.Contract
 }
 
@@ -30,7 +30,7 @@ type event struct {
 
 // Mint creates new tokens and adds them to minter's account balance
 // This function triggers a Transfer event
-func (s *SmartContract) Mint(ctx contractapi.TransactionContextInterface, amount int) error {
+func (s *ERC20Contract) Mint(ctx contractapi.TransactionContextInterface, amount int) error {
 
 	// Check minter authorization - this sample assumes Org1 is the central banker with privilege to mint new tokens
 	clientMSPID, err := ctx.GetClientIdentity().GetMSPID()
@@ -112,7 +112,7 @@ func (s *SmartContract) Mint(ctx contractapi.TransactionContextInterface, amount
 
 // Burn redeems tokens the minter's account balance
 // This function triggers a Transfer event
-func (s *SmartContract) Burn(ctx contractapi.TransactionContextInterface, amount int) error {
+func (s *ERC20Contract) Burn(ctx contractapi.TransactionContextInterface, amount int) error {
 
 	// Check minter authorization - this sample assumes Org1 is the central banker with privilege to burn new tokens
 	clientMSPID, err := ctx.GetClientIdentity().GetMSPID()
@@ -193,7 +193,7 @@ func (s *SmartContract) Burn(ctx contractapi.TransactionContextInterface, amount
 // Transfer transfers tokens from client account to recipient account
 // recipient account must be a valid clientID as returned by the ClientID() function
 // This function triggers a Transfer event
-func (s *SmartContract) Transfer(ctx contractapi.TransactionContextInterface, recipient string, amount int) error {
+func (s *ERC20Contract) Transfer(ctx contractapi.TransactionContextInterface, recipient string, amount int) error {
 
 	// Get ID of submitting client identity
 	clientID, err := ctx.GetClientIdentity().GetID()
@@ -221,7 +221,7 @@ func (s *SmartContract) Transfer(ctx contractapi.TransactionContextInterface, re
 }
 
 // BalanceOf returns the balance of the given account
-func (s *SmartContract) BalanceOf(ctx contractapi.TransactionContextInterface, account string) (int, error) {
+func (s *ERC20Contract) BalanceOf(ctx contractapi.TransactionContextInterface, account string) (int, error) {
 	balanceBytes, err := ctx.GetStub().GetState(account)
 	if err != nil {
 		return 0, fmt.Errorf("failed to read from world state: %v", err)
@@ -236,7 +236,7 @@ func (s *SmartContract) BalanceOf(ctx contractapi.TransactionContextInterface, a
 }
 
 // ClientAccountBalance returns the balance of the requesting client's account
-func (s *SmartContract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) (int, error) {
+func (s *ERC20Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) (int, error) {
 
 	// Get ID of submitting client identity
 	clientID, err := ctx.GetClientIdentity().GetID()
@@ -260,7 +260,7 @@ func (s *SmartContract) ClientAccountBalance(ctx contractapi.TransactionContextI
 // ClientAccountID returns the id of the requesting client's account
 // In this implementation, the client account ID is the clientId itself
 // Users can use this function to get their own account id, which they can then give to others as the payment address
-func (s *SmartContract) ClientAccountID(ctx contractapi.TransactionContextInterface) (string, error) {
+func (s *ERC20Contract) ClientAccountID(ctx contractapi.TransactionContextInterface) (string, error) {
 
 	// Get ID of submitting client identity
 	clientAccountID, err := ctx.GetClientIdentity().GetID()
@@ -272,7 +272,7 @@ func (s *SmartContract) ClientAccountID(ctx contractapi.TransactionContextInterf
 }
 
 // TotalSupply returns the total token supply
-func (s *SmartContract) TotalSupply(ctx contractapi.TransactionContextInterface) (int, error) {
+func (s *ERC20Contract) TotalSupply(ctx contractapi.TransactionContextInterface) (int, error) {
 
 	// Retrieve total supply of tokens from state of smart contract
 	totalSupplyBytes, err := ctx.GetStub().GetState(totalSupplyKey)
@@ -297,7 +297,7 @@ func (s *SmartContract) TotalSupply(ctx contractapi.TransactionContextInterface)
 // Approve allows the spender to withdraw from the calling client's token account
 // The spender can withdraw multiple times if necessary, up to the value amount
 // This function triggers an Approval event
-func (s *SmartContract) Approve(ctx contractapi.TransactionContextInterface, spender string, value int) error {
+func (s *ERC20Contract) Approve(ctx contractapi.TransactionContextInterface, spender string, value int) error {
 
 	// Get ID of submitting client identity
 	owner, err := ctx.GetClientIdentity().GetID()
@@ -334,7 +334,7 @@ func (s *SmartContract) Approve(ctx contractapi.TransactionContextInterface, spe
 }
 
 // Allowance returns the amount still available for the spender to withdraw from the owner
-func (s *SmartContract) Allowance(ctx contractapi.TransactionContextInterface, owner string, spender string) (int, error) {
+func (s *ERC20Contract) Allowance(ctx contractapi.TransactionContextInterface, owner string, spender string) (int, error) {
 
 	// Create allowanceKey
 	allowanceKey, err := ctx.GetStub().CreateCompositeKey(allowancePrefix, []string{owner, spender})
@@ -364,7 +364,7 @@ func (s *SmartContract) Allowance(ctx contractapi.TransactionContextInterface, o
 
 // TransferFrom transfers the value amount from the "from" address to the "to" address
 // This function triggers a Transfer event
-func (s *SmartContract) TransferFrom(ctx contractapi.TransactionContextInterface, from string, to string, value int) error {
+func (s *ERC20Contract) TransferFrom(ctx contractapi.TransactionContextInterface, from string, to string, value int) error {
 
 	// Get ID of submitting client identity
 	spender, err := ctx.GetClientIdentity().GetID()

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	erc20Contract := new(SmartContract)
+	erc20Contract := new(ERC20Contract)
 	tokenChaincode, err := contractapi.NewChaincode(erc20Contract)
 	if err != nil {
 		log.Panicf("Error creating token-erc-20 chaincode: %v", err)

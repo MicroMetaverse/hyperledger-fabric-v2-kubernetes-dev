@@ -3,3 +3,6 @@ crypto-config
 typescript
 /key-value-chaincode/vendor/
 /erc721-chaincode/vendor/
+/erc20-chaincode/vendor/
+
+/erc20-chaincode/vendor/
