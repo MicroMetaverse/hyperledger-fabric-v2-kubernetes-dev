@@ -17,14 +17,20 @@ export const invoke = async (invoke: GreetingDto) => {
     // Check to see if we've already enrolled the user.
     const identity = await wallet.get(invoke.appUser);
     if (!identity) {
-      console.log(`An identity for the user ${invoke.appUser} does not exist in the wallet`);
+      console.log(
+        `An identity for the user ${invoke.appUser} does not exist in the wallet`,
+      );
       console.log(`Please register ther user ${invoke.appUser} first`);
       return;
     }
 
     // Create a new gateway for connecting to our peer node.
     const gateway = new Gateway();
-    await gateway.connect(ccp, { wallet, identity: invoke.appUser, discovery: { enabled: true, asLocalhost: false } });
+    await gateway.connect(ccp, {
+      wallet,
+      identity: invoke.appUser,
+      discovery: { enabled: true, asLocalhost: false },
+    });
 
     // Get the network (channel) our contract is deployed to.
     const network = await gateway.getNetwork(invoke.channelId);
@@ -33,12 +39,14 @@ export const invoke = async (invoke: GreetingDto) => {
     const contract = network.getContract(invoke.contractName);
 
     // Submit transaction
-    const responseAsBytes = await contract.submitTransaction(invoke.func, ...invoke.args);
+    const responseAsBytes = await contract.submitTransaction(
+      invoke.func,
+      ...invoke.args,
+    );
     console.log(`Transaction has been submitted`);
     return responseAsBytes.toString();
-
   } catch (error) {
     console.error(`Failed to submit transaction: ${error}`);
     return error;
   }
-}
+};

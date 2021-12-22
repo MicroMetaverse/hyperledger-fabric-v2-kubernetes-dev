@@ -19,7 +19,6 @@ export class AppService {
   async getGreeting(greeting: GreetingDto): Promise<any> {
     return await query(greeting);
     // console.log(...greeting.args)
-
   }
 
   async setGreeting(greeting: GreetingDto): Promise<any> {

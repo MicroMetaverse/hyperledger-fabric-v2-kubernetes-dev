@@ -22,25 +22,41 @@ export const registerUser = async (user: RegisterUserDto) => {
     // Check to see if we've already enrolled the user.
     const userIdentity = await wallet.get(user.name);
     if (userIdentity) {
-      console.log(`An identity for the user ${user.name} already exists in the wallet`);
+      console.log(
+        `An identity for the user ${user.name} already exists in the wallet`,
+      );
       return;
     }
 
     // Check to see if we've already enrolled the admin user.
     const adminIdentity = await wallet.get('admin');
     if (!adminIdentity) {
-      console.log('An identity for the admin user "admin" does not exist in the wallet');
+      console.log(
+        'An identity for the admin user "admin" does not exist in the wallet',
+      );
       console.log('Run the enrollAdmin.ts application before retrying');
       return;
     }
 
     // Build a user object for authenticating with the CA
-    const provider = wallet.getProviderRegistry().getProvider(adminIdentity.type);
+    const provider = wallet
+      .getProviderRegistry()
+      .getProvider(adminIdentity.type);
     const adminUser = await provider.getUserContext(adminIdentity, 'admin');
 
     // Register the user, enroll the user, and import the new identity into the wallet.
-    const secret = await ca.register({ affiliation: user.affiliation, enrollmentID: user.name, role: 'client' }, adminUser);
-    const enrollment = await ca.enroll({ enrollmentID: user.name, enrollmentSecret: secret });
+    const secret = await ca.register(
+      {
+        affiliation: user.affiliation,
+        enrollmentID: user.name,
+        role: 'client',
+      },
+      adminUser,
+    );
+    const enrollment = await ca.enroll({
+      enrollmentID: user.name,
+      enrollmentSecret: secret,
+    });
     const x509Identity: X509Identity = {
       credentials: {
         certificate: enrollment.certificate,
@@ -51,9 +67,8 @@ export const registerUser = async (user: RegisterUserDto) => {
     };
     await wallet.put(user.name, x509Identity);
     return `Successfully registered and enrolled user ${user.name} and imported it into the wallet`;
-
   } catch (error) {
     console.error(`Failed to register user ${user.name}: ${error}`);
     process.exit(1);
   }
-}
+};
