@@ -1,4 +1,4 @@
-module github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
+module github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 
 go 1.16
 

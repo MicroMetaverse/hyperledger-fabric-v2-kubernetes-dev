@@ -1,4 +1,4 @@
-module github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/erc20-chaincode
+module github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/erc20-chaincode
 
 go 1.16
 

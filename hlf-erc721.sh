@@ -7,7 +7,7 @@ source ./scripts/chaincode-erc721.sh
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
 export CHANNEL_ID=erc721             # anything
 
-export CCURL=github.com/MicroMetaverse/hyperledger-fabric-v2-kubernetes-dev/erc721-chaincode
+export CCURL=github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/erc721-chaincode
 export CCNAME=erc721-chaincode
 
 createNamespaces() {
