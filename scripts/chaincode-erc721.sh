@@ -94,7 +94,7 @@ invoke() {
   CCNAME=$1
   CHANNEL_ID=$2
   CTOR=$3
-
+  echo "---invoke:${CTOR}"
 
 
   cat <<EOF
@@ -102,7 +102,7 @@ echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '${CTOR}' \
+  --ctor ${CTOR} \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
@@ -120,11 +120,12 @@ query() {
   CCNAME=$1
   CHANNEL_ID=$2
   CTOR=$3
+  echo "---query:${CTOR}"
 
   cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
---ctor '${CTOR}' \
+--ctor ${CTOR} \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 
