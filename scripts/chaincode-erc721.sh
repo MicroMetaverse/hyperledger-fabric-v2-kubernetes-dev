@@ -93,12 +93,16 @@ EOF
 invoke() {
   CCNAME=$1
   CHANNEL_ID=$2
+
+  export CORE_PEER_TLS_ENABLED=true
+  export CORE_PEER_LOCALMSPID="Org1MSP"
+
   cat <<EOF
 echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["create", "greeting", "Hello, World!"]}' \
+  --ctor '{"function":"MintWithTokenURI","Args":["101", "https://example.com/nft101.json"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
@@ -118,7 +122,14 @@ query() {
   cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
---ctor '{"Args":["read", "greeting"]}' \
+--ctor '{"function":"ClientAccountBalance","Args":[]}' \
+--tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
+EOF
+
+  cat <<EOF
+peer chaincode query --name ${CCNAME} \
+--channelID ${CHANNEL_ID} \
+--ctor '{"function":"OwnerOf","Args":["101"]}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 }
@@ -126,12 +137,16 @@ EOF
 update() {
   CCNAME=$1
   CHANNEL_ID=$2
+
+  export CORE_PEER_TLS_ENABLED=true
+  export CORE_PEER_LOCALMSPID="Org2MSP"
+
   cat <<EOF
 echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["update", "greeting", "Hello, Blockchain!"]}' \
+  --ctor '{"function":"ClientAccountID","Args":[]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
