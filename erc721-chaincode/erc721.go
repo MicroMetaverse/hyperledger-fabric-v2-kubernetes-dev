@@ -618,10 +618,30 @@ func _nftExists(ctx contractapi.TransactionContextInterface, tokenId string) boo
  * @param {Context} ctx the transaction context
  * @returns {Number} Returns the account balance
  */
-func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) int {
+//func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) int {
+//	// Get ID of submitting client identity
+//	clientAccountID, _ := ctx.GetClientIdentity().GetID()
+//	return BalanceOf(ctx, clientAccountID)
+//}
+func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) (int, error) {
 	// Get ID of submitting client identity
-	clientAccountID, _ := ctx.GetClientIdentity().GetID()
-	return BalanceOf(ctx, clientAccountID)
+	balance := 0
+	clientID, err := ctx.GetClientIdentity().GetID()
+	if err != nil {
+		return balance, err
+	}
+
+	balanceBytes, err := ctx.GetStub().GetState(clientID)
+	if err != nil {
+		return balance, err
+	}
+	if balanceBytes == nil {
+		return balance, err
+	}
+
+	balance, _ = strconv.Atoi(string(balanceBytes)) // Error handling not needed since Itoa() was used when setting the account balance, guaranteeing it was an integer.
+
+	return balance, nil
 }
 
 // ClientAccountID returns the id of the requesting client's account.
