@@ -125,7 +125,7 @@ query() {
   cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
---ctor ${CTOR} \
+--ctor '${CTOR}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 

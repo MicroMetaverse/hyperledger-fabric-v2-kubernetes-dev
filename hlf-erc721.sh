@@ -93,7 +93,7 @@ ccCommit)
 ccInvoke)
   CTOR=$2
   echo "---ccInvoke:${CTOR}"
-	invoke ${CCNAME} ${CHANNEL_ID} ${CTOR} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+	invoke ${CCNAME} ${CHANNEL_ID} "${CTOR}" | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
 	;;
 
 
@@ -103,7 +103,7 @@ ccQuery)
 	for ORG in org1 org2 org3; do
 		for PEER in peer0; do
 			echo "Quering on ${PEER}.${ORG}"
-			query ${CCNAME} ${CHANNEL_ID} ${CTOR} | sh -c "kubectl --namespace ${ORG} exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
+			query ${CCNAME} ${CHANNEL_ID} "${CTOR}" | sh -c "kubectl --namespace ${ORG} exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
 		done
 	done
 	;;
