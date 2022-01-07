@@ -1,4 +1,4 @@
-# !/usr/bin/env bash
+#!/usr/bin/env bash
 
 source ./scripts/generate-crypto-artifacts.sh
 source ./scripts/create-secrets.sh
