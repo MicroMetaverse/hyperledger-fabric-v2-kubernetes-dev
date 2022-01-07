@@ -25,7 +25,9 @@ ccpgen() {
 	sh scripts/ccp-generate.sh
 }
 
+###
 case $1 in
+#
 up)
 	genCrypto
 	genChannelArtifacts ${CHANNEL_PROFILE} ${CHANNEL_ID}
@@ -49,10 +51,13 @@ up)
 		done
 	done
 	;;
+
+#
 down)
 	deleteNamespaces
 	;;
 
+#
 joinChannel)
 	for ORG in org1 org2 org3; do
 		for PEER in peer0; do
@@ -62,6 +67,7 @@ joinChannel)
 	done
 	;;
 
+#
 ccInstall)
 	for ORG in org1 org2 org3; do
 		echo "Installing on ${ORG} peers"
@@ -73,6 +79,7 @@ ccInstall)
 	done
 	;;
 
+#
 ccApprove)
 	for ORG in org1 org2 org3; do
 		echo "Installing on ${ORG} peers"
@@ -83,6 +90,8 @@ ccApprove)
 		done
 	done
 	;;
+
+#
 ccCommit)
 	ORG=org1
 	PEER=peer0
@@ -90,13 +99,26 @@ ccCommit)
     exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
 	;;
 
+#
 ccInvoke)
   CTOR=$2
   echo "---ccInvoke:${CTOR}"
 	invoke ${CCNAME} ${CHANNEL_ID} "${CTOR}" | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
 	;;
 
+#
+ccInvokeAll)
+  CTOR=$2
+  echo "---ccInvoke:${CTOR}"
+  for ORG in org1 org2 org3; do
+  	for PEER in peer0; do
+  	  echo "ccInvokeAll on ${PEER}.${ORG}"
+	    invoke ${CCNAME} ${CHANNEL_ID} "${CTOR}" | sh -c "kubectl --namespace ${ORG} exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
+		done
+  done
+  ;;
 
+#
 ccQuery)
   CTOR=$2
   echo "---ccQuery:${CTOR}"
@@ -107,4 +129,6 @@ ccQuery)
 		done
 	done
 	;;
+
+#
 esac
