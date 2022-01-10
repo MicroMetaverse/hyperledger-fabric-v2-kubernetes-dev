@@ -56,7 +56,7 @@ type Approval struct {
  * @param {String} owner An owner for whom to query the balance
  * @returns {Number} The number of non-fungible tokens owned by the owner, possibly zero
  */
-func BalanceOf(ctx contractapi.TransactionContextInterface, owner string) int {
+func (sc *ERC721Contract) BalanceOf(ctx contractapi.TransactionContextInterface, owner string) int {
 	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
 	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
 	var balance = 0
@@ -621,7 +621,26 @@ func _nftExists(ctx contractapi.TransactionContextInterface, tokenId string) boo
 func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) int {
 	// Get ID of submitting client identity
 	clientAccountID, _ := ctx.GetClientIdentity().GetID()
-	return BalanceOf(ctx, clientAccountID)
+
+	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
+	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
+	var balance = 0
+	keys := []string{clientAccountID}
+	iterator, err := ctx.GetStub().GetStateByPartialCompositeKey(balancePrefix, keys)
+	if err != nil {
+		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", clientAccountID)
+		return balance
+	}
+
+	// Count the number of returned composite keys
+	result, _ := iterator.Next()
+
+	for result != nil {
+		balance++
+		result, _ = iterator.Next()
+	}
+	return balance
+
 }
 
 // ClientAccountID returns the id of the requesting client's account.
