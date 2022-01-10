@@ -57,24 +57,8 @@ type Approval struct {
  * @returns {Number} The number of non-fungible tokens owned by the owner, possibly zero
  */
 func (sc *ERC721Contract) BalanceOf(ctx contractapi.TransactionContextInterface, owner string) int {
-	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
-	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
-	var balance = 0
-	keys := []string{owner}
-	iterator, err := ctx.GetStub().GetStateByPartialCompositeKey(balancePrefix, keys)
-	if err != nil {
-		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", owner)
-		return balance
-	}
-
-	// Count the number of returned composite keys
-	result, _ := iterator.Next()
-
-	for result != nil {
-		balance++
-		result, _ = iterator.Next()
-	}
-	return balance
+	//
+	return _balanceOf(ctx, owner)
 }
 
 /**
@@ -612,23 +596,14 @@ func _nftExists(ctx contractapi.TransactionContextInterface, tokenId string) boo
 	return true
 }
 
-/**
- * ClientAccountBalance returns the balance of the requesting client's account.
- *
- * @param {Context} ctx the transaction context
- * @returns {Number} Returns the account balance
- */
-func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) int {
-	// Get ID of submitting client identity
-	clientAccountID, _ := ctx.GetClientIdentity().GetID()
-
+func _balanceOf(ctx contractapi.TransactionContextInterface, owner string) int {
 	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
 	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
 	var balance = 0
-	keys := []string{clientAccountID}
+	keys := []string{owner}
 	iterator, err := ctx.GetStub().GetStateByPartialCompositeKey(balancePrefix, keys)
 	if err != nil {
-		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", clientAccountID)
+		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", owner)
 		return balance
 	}
 
@@ -640,6 +615,18 @@ func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContex
 		result, _ = iterator.Next()
 	}
 	return balance
+}
+
+/**
+ * ClientAccountBalance returns the balance of the requesting client's account.
+ *
+ * @param {Context} ctx the transaction context
+ * @returns {Number} Returns the account balance
+ */
+func (sc *ERC721Contract) ClientAccountBalance(ctx contractapi.TransactionContextInterface) int {
+	// Get ID of submitting client identity
+	clientAccountID, _ := ctx.GetClientIdentity().GetID()
+	return _balanceOf(ctx, clientAccountID)
 
 }
 
