@@ -5,7 +5,6 @@ import (
 	"errors"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"log"
-	"strconv"
 )
 
 // Define objectType names for prefix
@@ -23,24 +22,24 @@ type ERC721Contract struct {
 }
 
 type NFT struct {
-	TokenId  int    `json:"tokenId"`
+	TokenId  string `json:"tokenId"`
 	Owner    string `json:"owner"`
 	TokenURI string `json:"tokenURI"`
-	Approved string `json:"approved"`
+	Approved bool   `json:"approved"`
 }
 
 // TransferEvent event provides an organized struct for emitting events
 type TransferEvent struct {
 	From    string `json:"from"`
 	To      string `json:"to"`
-	TokenId int    `json:"tokenId"`
+	TokenId string `json:"tokenId"`
 }
 
 //ApprovalEvent
 type ApprovalEvent struct {
 	Owner    string `json:"owner"`
-	Approved string `json:"approved"`
-	TokenId  int    `json:"tokenId"`
+	Approved bool   `json:"approved"`
+	TokenId  string `json:"tokenId"`
 }
 
 type Approval struct {
@@ -109,7 +108,7 @@ func (sc *ERC721Contract) TransferFrom(ctx contractapi.TransactionContextInterfa
 	owner := nft.Owner
 	tokenApproval := nft.Approved
 	operatorApproval := IsApprovedForAll(ctx, owner, sender)
-	if owner != sender && tokenApproval != sender && !operatorApproval {
+	if owner != sender && !tokenApproval && !operatorApproval {
 		log.Printf(`The sender is not allowed to transfer the non-fungible token`)
 		return false
 	}
@@ -121,7 +120,7 @@ func (sc *ERC721Contract) TransferFrom(ctx contractapi.TransactionContextInterfa
 	}
 
 	// Clear the approved client for this non-fungible token
-	nft.Approved = ""
+	nft.Approved = false
 
 	// Overwrite a non-fungible token to assign a new owner.
 	nft.Owner = to
@@ -171,12 +170,7 @@ func (sc *ERC721Contract) TransferFrom(ctx contractapi.TransactionContextInterfa
 	}
 
 	// Emit the Transfer event
-	tokenIdInt, err := strconv.Atoi(tokenId)
-	if err != nil {
-		log.Printf("failed to tokenIdInt: %v", err)
-		return false
-	}
-	transferEvent := TransferEvent{from, to, tokenIdInt}
+	transferEvent := TransferEvent{from, to, tokenId}
 	var transferEventBytes []byte
 	transferEventBytes, _ = json.Marshal(transferEvent)
 	err = ctx.GetStub().SetEvent("Transfer", transferEventBytes)
@@ -196,7 +190,7 @@ func (sc *ERC721Contract) TransferFrom(ctx contractapi.TransactionContextInterfa
  * @param {String} tokenId the non-fungible token to approve
  * @returns {Boolean} Return whether the approval was successful or not
  */
-func (sc *ERC721Contract) Approve(ctx contractapi.TransactionContextInterface, approved string, tokenId string) bool {
+func (sc *ERC721Contract) Approve(ctx contractapi.TransactionContextInterface, approved bool, tokenId string) bool {
 	sender, _ := ctx.GetClientIdentity().GetID()
 	nft, _ := _readNFT(ctx, tokenId)
 
@@ -226,12 +220,8 @@ func (sc *ERC721Contract) Approve(ctx contractapi.TransactionContextInterface, a
 	}
 
 	// Emit the Approval event
-	tokenIdInt, err := strconv.Atoi(tokenId)
-	if err != nil {
-		log.Printf("failed to tokenIdInt: %v", err)
-		return false
-	}
-	approvalEvent := ApprovalEvent{owner, approved, tokenIdInt}
+
+	approvalEvent := ApprovalEvent{owner, approved, tokenId}
 	var approvalEventBytes []byte
 	approvalEventBytes, _ = json.Marshal(approvalEvent)
 	err = ctx.GetStub().SetEvent("Approval", approvalEventBytes)
@@ -290,7 +280,7 @@ func (sc *ERC721Contract) SetApprovalForAll(ctx contractapi.TransactionContextIn
  * @param {String} tokenId the non-fungible token to find the approved client for
  * @returns {Object} Return the approved client for this non-fungible token, or null if there is none
  */
-func (sc *ERC721Contract) GetApproved(ctx contractapi.TransactionContextInterface, tokenId string) string {
+func (sc *ERC721Contract) GetApproved(ctx contractapi.TransactionContextInterface, tokenId string) bool {
 	nft, _ := _readNFT(ctx, tokenId)
 	return nft.Approved
 }
@@ -456,22 +446,8 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 		log.Printf("failed to GetID in MintWithTokenURI: %v", err)
 		return NFT{}, err
 	}
-
-	// Add a non-fungible token
-	//tokenIdInt := parseInt(tokenId)
-	//if isNaN(tokenIdInt) {
-	//	throw
-	//	new
-	//	Error(`The tokenId ${tokenId} is invalid. tokenId must be an integer`)
-	//}
-	var tokenIdInt int
-	tokenIdInt, err = strconv.Atoi(tokenId)
-	if err != nil {
-		err = errors.New(`the tokenId ${tokenId} is invalid. tokenId must be an integer`)
-		log.Printf("failed to tokenIdInt: %v", err)
-		return NFT{}, err
-	}
-	nft := NFT{tokenIdInt, minter, tokenURI, ""}
+	//TODO:approved is false ?
+	nft := NFT{tokenId, minter, tokenURI, false}
 	attrs := []string{tokenId}
 	nftKey, _ := ctx.GetStub().CreateCompositeKey(nftPrefix, attrs)
 
@@ -496,7 +472,7 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 	}
 
 	// Emit the Transfer event
-	transferEvent := TransferEvent{"0x0", minter, tokenIdInt}
+	transferEvent := TransferEvent{"0x0", minter, tokenId}
 	var transferEventBytes []byte
 	transferEventBytes, _ = json.Marshal(transferEvent)
 	err = ctx.GetStub().SetEvent("Transfer", transferEventBytes)
@@ -544,10 +520,7 @@ func (sc *ERC721Contract) Burn(ctx contractapi.TransactionContextInterface, toke
 	}
 
 	// Emit the Transfer event
-	//const tokenIdInt = parseInt(tokenId)
-	var tokenIdInt int
-	tokenIdInt, err = strconv.Atoi(tokenId)
-	transferEvent := TransferEvent{owner, "0x0", tokenIdInt}
+	transferEvent := TransferEvent{owner, "0x0", tokenId}
 
 	var transferEventBytes []byte
 	transferEventBytes, _ = json.Marshal(transferEvent)
