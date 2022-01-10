@@ -5,7 +5,7 @@ source ./scripts/create-secrets.sh
 source ./scripts/chaincode-erc721.sh
 
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
-export CHANNEL_ID=allorgs             # anything 暂时不可行Error: Invalid channel create transaction : mismatched channel ID allorgs != xxx
+export CHANNEL_ID=erc721             # anything 暂时不可行Error: Invalid channel create transaction : mismatched channel ID allorgs != xxx
 
 export CCURL=github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/erc721-chaincode
 export CCNAME=erc721-chaincode
