@@ -25,7 +25,7 @@ genCrypto() {
 #}
 
 
-#支持多 CHANNEL_ID 发布
+#支持多 CHANNEL_ID 发布,TODO:未解决
 genChannelArtifacts() {
   CHANNEL_PROFILE=$1
   CHANNEL_ID=$2
