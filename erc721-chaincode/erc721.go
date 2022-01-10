@@ -502,7 +502,7 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 	// A composite key would be balancePrefix.owner.tokenId, which enables partial
 	// composite key query to find and count all records matching balance.owner.*
 	// An empty value would represent a delete, so we simply insert the null character.
-	balanceAttrs := []string{tokenId}
+	balanceAttrs := []string{minter, tokenId}
 	balanceKey, _ := ctx.GetStub().CreateCompositeKey(balancePrefix, balanceAttrs)
 
 	err = ctx.GetStub().PutState(balanceKey, []byte(string('\u0000')))
