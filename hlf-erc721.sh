@@ -59,7 +59,7 @@ down)
 	;;
 #
 explorerAndAPI)
-	sh templates/orderer.sh ${CHANNEL_ID} | kubectl -n org1 apply -f -
+	sh templates/explorer.sh ${CHANNEL_ID} | kubectl -n org1 apply -f -
 	kubectl -n org1 apply -f explorer/explorerdb.yaml
   kubectl -n org1 apply -f api/api-k8s.yaml
 	;;
