@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-
-source ./scripts/generate-crypto-artifacts.sh
-source ./scripts/create-secrets.sh
-source ./scripts/chaincode-erc721.sh
-
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
 export CHANNEL_ID=erc721             # anything 暂时不可行Error: Invalid channel create transaction : mismatched channel ID allorgs != xxx
 
 export CCURL=github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/erc721-chaincode
 export CCNAME=erc721-chaincode
+#
+source ./scripts/generate-crypto-artifacts.sh
+source ./scripts/create-secrets.sh
+source ./scripts/chaincode-erc721.sh
+#
+
 
 createNamespaces() {
 	for NS in org1 org2 org3 org4 org5; do

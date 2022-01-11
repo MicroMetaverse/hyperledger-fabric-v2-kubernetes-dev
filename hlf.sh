@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-
-source ./scripts/generate-crypto-artifacts.sh
-source ./scripts/create-secrets.sh
-source ./scripts/chaincode.sh
-
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
 export CHANNEL_ID=allorgs             # anything debug 浏览器
 # export CCURL=github.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 export CCURL=github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 export CCNAME=key-value-chaincode
-
+#
+source ./scripts/generate-crypto-artifacts.sh
+source ./scripts/create-secrets.sh
+source ./scripts/chaincode.sh
+#
 createNamespaces() {
 	for NS in org1 org2 org3 org4 org5; do
 		kubectl create ns $NS
@@ -20,6 +19,7 @@ deleteNamespaces() {
 	kubectl delete ns org1 org2 org3 org4 org5
 	exit $?
 }
+
 
 ccpgen() {
 	sh scripts/ccp-generate.sh
@@ -51,6 +51,12 @@ up)
 	;;
 down)
 	deleteNamespaces
+	;;
+
+explorerAndAPI)
+	sh templates/orderer.sh ${CHANNEL_ID} | kubectl -n org1 apply -f -
+	kubectl -n org1 apply -f explorer/explorerdb.yaml
+  kubectl -n org1 apply -f api/api-k8s.yaml
 	;;
 
 joinChannel)

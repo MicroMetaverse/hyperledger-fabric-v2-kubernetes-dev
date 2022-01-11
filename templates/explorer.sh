@@ -1,3 +1,5 @@
+CHANNEL_ID=$1
+cat <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -100,7 +102,7 @@ spec:
               }
             },
             "channels": {
-              "allorgs": {
+              "${CHANNEL_ID}": {
                 "peers": {
                   "peer0.org1": {}
                 },
@@ -158,3 +160,5 @@ spec:
   selector:
     app: explorer
   type: ClusterIP
+
+EOF
