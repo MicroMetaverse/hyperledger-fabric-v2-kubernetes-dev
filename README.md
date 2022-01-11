@@ -17,7 +17,7 @@
 
 ![hyperledger-fabric-network](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/master/network-diagram.puml)
 
-## Network KV
+## 1 Network KV
 
 Start
 
@@ -37,20 +37,40 @@ Chaincode lifecycle
 ./hlf.sh ccInstall
 ./hlf.sh ccApprove
 ./hlf.sh ccCommit
+#
+./hlf.sh explorerAndAPI
+
 ./hlf.sh ccInvoke         # Creates greeting="Hello, World!"
 ./hlf.sh ccQuery          # Reads greeting value
 ./hlf.sh ccInvokeUpdate   # Updates greeting="Hello, Blockchain!"
 ./hlf.sh ccQuery          # Reads greeting value to check update succeeded
 ```
+## 2 Network erc721
+```shell
+./hlf-erc721.sh up
+./hlf-erc721.sh joinChannel
 
-## Explorer & Rest API
+#
+./hlf-erc721.sh ccInstall # 安装，通过
+./hlf-erc721.sh ccApprove
+./hlf-erc721.sh ccCommit
+
+./hlf-erc721.sh explorerAndAPI
+#
+# 如'{"function":"MintWithTokenURI","Args":["101", "http://172.16.3.20:32000/test/000.jpg"]}'
+./hlf-erc721.sh ccInvoke 'xxx' 
+#
+# 如 '{"function":"ClientAccountBalance","Args":[]}' 
+# '{"function":"BalanceOf","Args":["xxx"]}' 
+# '{"function":"ClientAccountID","Args":[]}' 
+./hlf-erc721.sh ccQuery 'xxx' 
+
+#
+./hlf-erc721.sh down
+```
+## 3 Explorer & Rest API
 
 Start explorer db
-
-```bash
-#
-./hlf.sh explorerAndAPI
-```
 
 explorer should now be available at <http://localhost:8080>
 
