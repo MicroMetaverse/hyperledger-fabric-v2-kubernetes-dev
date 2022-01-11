@@ -17,7 +17,7 @@
 
 ![hyperledger-fabric-network](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/master/network-diagram.puml)
 
-## Network
+## Network KV
 
 Start
 
