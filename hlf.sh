@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
-export CHANNEL_ID=allorgs             # anything debug 浏览器
+export CHANNEL_ID=kv             # anything debug 浏览器
 # export CCURL=github.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 export CCURL=github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 export CCNAME=key-value-chaincode
