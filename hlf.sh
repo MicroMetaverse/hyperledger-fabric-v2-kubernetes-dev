@@ -5,7 +5,7 @@ source ./scripts/create-secrets.sh
 source ./scripts/chaincode.sh
 
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
-export CHANNEL_ID=kv             # anything
+export CHANNEL_ID=allorgs             # anything debug 浏览器
 # export CCURL=github.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 export CCURL=github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev/key-value-chaincode
 export CCNAME=key-value-chaincode
