@@ -57,7 +57,12 @@ up)
 down)
 	deleteNamespaces
 	;;
-
+#
+explorerAndAPI)
+	sh templates/orderer.sh ${CHANNEL_ID} | kubectl -n org1 apply -f -
+	kubectl -n org1 apply -f explorer/explorerdb.yaml
+  kubectl -n org1 apply -f api/api-k8s.yaml
+	;;
 #
 joinChannel)
 	for ORG in org1 org2 org3; do
