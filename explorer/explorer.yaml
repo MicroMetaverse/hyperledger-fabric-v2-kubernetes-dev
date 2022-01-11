@@ -78,6 +78,7 @@ spec:
           EOF
           mkdir -p /var/hyperledger
           cd /var/hyperledger
+          export CHANNEL_ID=${CHANNEL_ID}
           cat > /var/hyperledger/conn.cluster.json <<EOF
           {
             "name": "fabnetv2",
