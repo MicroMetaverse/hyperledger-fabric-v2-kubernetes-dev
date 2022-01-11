@@ -100,7 +100,7 @@ spec:
               }
             },
             "channels": {
-              "allorgs": {
+              "${CHANNEL_ID}": {
                 "peers": {
                   "peer0.org1": {}
                 },
