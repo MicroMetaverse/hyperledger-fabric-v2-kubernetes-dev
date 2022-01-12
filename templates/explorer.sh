@@ -102,18 +102,6 @@ spec:
               }
             },
             "channels": {
-              "allorgs": {
-                "peers": {
-                  "peer0.org1": {}
-                },
-                "connection": {
-                  "timeout": {
-                    "peer": {
-                      "endorser": "6000"
-                    }
-                  }
-                }
-              },
               "${CHANNEL_ID}": {
                 "peers": {
                   "peer0.org1": {}
