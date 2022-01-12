@@ -113,6 +113,18 @@ spec:
                     }
                   }
                 }
+              },
+              "${CHANNEL_ID}": {
+                "peers": {
+                  "peer0.org1": {}
+                },
+                "connection": {
+                  "timeout": {
+                    "peer": {
+                      "endorser": "6000"
+                    }
+                  }
+                }
               }
             },
             "organizations": {
@@ -159,6 +171,6 @@ spec:
     targetPort: 8080
   selector:
     app: explorer
-  type: ClusterIP
+  type: NodePort
 
 EOF
