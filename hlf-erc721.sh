@@ -41,7 +41,7 @@ up)
 	for ORG in org1 org2 org3; do
 		createCASecrets ${ORG}
 		createAdminSecret ${ORG} ${PEER}
-		createChannelArtifactsSecrets ${ORG}
+		createChannelArtifactsSecrets ${ORG} ${CHANNEL_ID}
 		createOrgRootTLSCAsSecret ${ORG}
 		sh templates/ca.sh ${ORG} | kubectl apply -f -
 

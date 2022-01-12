@@ -59,7 +59,8 @@ createAdminSecret() {
 
 createChannelArtifactsSecrets() {
     ORG=$1
+    CHANNEL_ID=$2
     kubectl --namespace ${ORG} create secret generic channel-artifacts \
-        --from-file=channel.tx=channel-artifacts/channel.tx \
-        --from-file=anchor-peer-update.tx=channel-artifacts/${ORG}-msp-anchors.tx
+        --from-file=channel.tx=channel-artifacts/${CHANNEL_ID}-channel.tx \
+        --from-file=anchor-peer-update.tx=channel-artifacts/${CHANNEL_ID}-${ORG}-msp-anchors.tx
 }

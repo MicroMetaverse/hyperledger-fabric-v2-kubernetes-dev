@@ -25,15 +25,15 @@ genCrypto() {
 #}
 
 
-#支持多 CHANNEL_ID 发布,TODO:未解决
+#支持多 CHANNEL_ID 发布,TODO:test
 genChannelArtifacts() {
   CHANNEL_PROFILE=$1
   CHANNEL_ID=$2
 
   configtxgen -profile ${ORDERER_GENESIS_PROFILE} -channelID sys-channel -outputBlock ./channel-artifacts/genesis.block
-  configtxgen -profile ${CHANNEL_PROFILE} -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_ID
-  configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artifacts/org1-msp-anchors.tx -channelID $CHANNEL_ID -asOrg Org1MSP
-  configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artifacts/org2-msp-anchors.tx -channelID $CHANNEL_ID -asOrg Org2MSP
-  configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artifacts/org3-msp-anchors.tx -channelID $CHANNEL_ID -asOrg Org3MSP
+  configtxgen -profile ${CHANNEL_PROFILE} -outputCreateChannelTx ./channel-artifacts/${CHANNEL_ID}-channel.tx -channelID ${CHANNEL_ID}
+  configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artifacts/${CHANNEL_ID}-org1-msp-anchors.tx -channelID ${CHANNEL_ID} -asOrg Org1MSP
+  configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artifacts/${CHANNEL_ID}-org2-msp-anchors.tx -channelID ${CHANNEL_ID} -asOrg Org2MSP
+  configtxgen -profile ${CHANNEL_PROFILE} -outputAnchorPeersUpdate ./channel-artifacts/${CHANNEL_ID}-org3-msp-anchors.tx -channelID ${CHANNEL_ID} -asOrg Org3MSP
 
 }
