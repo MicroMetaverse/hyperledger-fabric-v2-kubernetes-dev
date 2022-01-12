@@ -66,7 +66,11 @@ export const registerUser = async (user: RegisterUserDto) => {
       type: 'X.509',
     };
     await wallet.put(user.name, x509Identity);
-    return `Successfully registered and enrolled user ${user.name} and imported it into the wallet`;
+    // return `Successfully registered and enrolled user ${user.name} and imported it into the wallet`;
+    console.log(
+      `Successfully registered and enrolled user ${user.name} and imported it into the wallet`,
+    );
+    return await wallet.get(user.name);
   } catch (error) {
     console.error(`Failed to register user ${user.name}: ${error}`);
     process.exit(1);

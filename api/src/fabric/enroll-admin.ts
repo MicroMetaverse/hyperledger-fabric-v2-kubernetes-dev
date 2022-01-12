@@ -40,7 +40,11 @@ export const enrollAdmin = async (admin: EnrollAdminDto) => {
       type: 'X.509',
     };
     await wallet.put(admin.name, x509Identity);
-    return `Successfully enrolled user ${admin.name} and imported it into the wallet`;
+    // return `Successfully enrolled user ${admin.name} and imported it into the wallet`;
+    console.log(
+      `Successfully enrolled user ${admin.name} and imported it into the wallet`,
+    );
+    return await wallet.get(admin.name);
   } catch (error) {
     console.error(`Failed to enroll user ${admin.name}: ${error}`);
     return error;
