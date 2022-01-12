@@ -45,7 +45,7 @@ up)
 		for PEER in peer0; do
 			createPeerSecret ${ORG} ${PEER}
 			sh templates/peer.sh ${ORG} ${PEER} | kubectl apply -f -
-			sh templates/admin.sh ${ORG} ${PEER} | kubectl apply -f -
+			sh templates/admin.sh ${ORG} ${PEER} ${CHANNEL_ID} | kubectl apply -f -
 		done
 	done
 	;;

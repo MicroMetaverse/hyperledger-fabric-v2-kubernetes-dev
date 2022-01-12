@@ -1,5 +1,6 @@
 ORG=$1
 PEER=$2
+CHANNEL_ID=$3
 cat <<EOF
 apiVersion: apps/v1
 kind: Deployment
@@ -68,7 +69,7 @@ spec:
             path: core.yaml
       - name: channel-artifacts
         secret:
-          secretName: channel-artifacts  
+          secretName: ${CHANNEL_ID}-channel-artifacts
 
 ---
 apiVersion: v1
