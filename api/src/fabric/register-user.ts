@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { RegisterUserDto } from 'src/dto';
 
 export const registerUser = async (user: RegisterUserDto) => {
+  let msg = ``;
   try {
     // Load the network configuration
     const ccpPath = path.resolve(__dirname, process.env.HLF_CCP_PATH);
@@ -22,20 +23,18 @@ export const registerUser = async (user: RegisterUserDto) => {
     // Check to see if we've already enrolled the user.
     const userIdentity = await wallet.get(user.name);
     if (userIdentity) {
-      console.log(
-        `An identity for the user ${user.name} already exists in the wallet`,
-      );
-      return;
+      msg = `An identity for the user ${user.name} already exists in the wallet`;
+      console.log(msg);
+      return msg;
     }
 
     // Check to see if we've already enrolled the admin user.
     const adminIdentity = await wallet.get('admin');
     if (!adminIdentity) {
-      console.log(
-        'An identity for the admin user "admin" does not exist in the wallet',
-      );
-      console.log('Run the enrollAdmin.ts application before retrying');
-      return;
+      msg =
+        'An identity for the admin user "admin" does not exist in the wallet,Run the enrollAdmin.ts application before retrying';
+      console.log(msg);
+      return msg;
     }
 
     // Build a user object for authenticating with the CA
@@ -66,13 +65,14 @@ export const registerUser = async (user: RegisterUserDto) => {
       type: 'X.509',
     };
     await wallet.put(user.name, x509Identity);
-    // return `Successfully registered and enrolled user ${user.name} and imported it into the wallet`;
-    console.log(
-      `Successfully registered and enrolled user ${user.name} and imported it into the wallet`,
-    );
+    msg = `Successfully registered and enrolled user ${user.name} and imported it into the wallet`;
+    // return msg;
+    console.log(msg);
     return await wallet.get(user.name);
   } catch (error) {
-    console.error(`Failed to register user ${user.name}: ${error}`);
-    process.exit(1);
+    msg = `Failed to register user ${user.name}: ${error}`;
+    console.error(msg);
+    // 进程不退出 process.exit(1);
+    return msg;
   }
 };

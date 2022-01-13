@@ -5,6 +5,7 @@ import * as path from 'path';
 import { EnrollAdminDto } from 'src/dto';
 
 export const enrollAdmin = async (admin: EnrollAdminDto) => {
+  let msg = ``;
   try {
     // Load the network configuration
     const ccpPath = path.resolve(__dirname, process.env.HLF_CCP_PATH);
@@ -22,10 +23,9 @@ export const enrollAdmin = async (admin: EnrollAdminDto) => {
     // Check to see if we've already enrolled the admin user.
     const adminExists = await wallet.get(admin.name);
     if (adminExists) {
-      console.log(
-        `An identity for the user ${admin.name} already exists in the wallet`,
-      );
-      return;
+      msg = `An identity for the user ${admin.name} already exists in the wallet`;
+      console.log(msg);
+      return msg;
     }
     const enrollment = await ca.enroll({
       enrollmentID: admin.name,
@@ -40,13 +40,13 @@ export const enrollAdmin = async (admin: EnrollAdminDto) => {
       type: 'X.509',
     };
     await wallet.put(admin.name, x509Identity);
-    // return `Successfully enrolled user ${admin.name} and imported it into the wallet`;
-    console.log(
-      `Successfully enrolled user ${admin.name} and imported it into the wallet`,
-    );
+    msg = `Successfully enrolled user ${admin.name} and imported it into the wallet`;
+    console.log(msg);
+    // return msg;
     return await wallet.get(admin.name);
   } catch (error) {
-    console.error(`Failed to enroll user ${admin.name}: ${error}`);
-    return error;
+    msg = `Failed to enroll user ${admin.name}: ${error}`;
+    console.error(msg);
+    return msg;
   }
 };

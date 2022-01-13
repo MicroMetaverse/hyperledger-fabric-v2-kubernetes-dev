@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import { GreetingDto } from 'src/dto';
 
 export const invoke = async (invoke: GreetingDto) => {
+  let msg = ``;
+
   try {
     // Load the network configuration
     const ccpPath = path.resolve(__dirname, process.env.HLF_CCP_PATH);
@@ -17,11 +19,9 @@ export const invoke = async (invoke: GreetingDto) => {
     // Check to see if we've already enrolled the user.
     const identity = await wallet.get(invoke.appUser);
     if (!identity) {
-      console.log(
-        `An identity for the user ${invoke.appUser} does not exist in the wallet`,
-      );
-      console.log(`Please register ther user ${invoke.appUser} first`);
-      return;
+      msg = `An identity for the user ${invoke.appUser} does not exist in the wallet;Please register ther user ${invoke.appUser} first`;
+      console.log(msg);
+      return msg;
     }
 
     // Create a new gateway for connecting to our peer node.
@@ -46,7 +46,8 @@ export const invoke = async (invoke: GreetingDto) => {
     console.log(`Transaction has been submitted`);
     return responseAsBytes.toString();
   } catch (error) {
-    console.error(`Failed to submit transaction: ${error}`);
-    return error;
+    msg = `Failed to submit transaction: ${error}`;
+    console.error(msg);
+    return msg;
   }
 };

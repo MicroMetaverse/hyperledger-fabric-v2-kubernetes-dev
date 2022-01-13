@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import { GreetingDto } from 'src/dto';
 
 export const query = async (query: GreetingDto) => {
+  let msg = ``;
+
   try {
     // Load the network configuration
     const ccpPath = path.resolve(__dirname, process.env.HLF_CCP_PATH);
@@ -17,11 +19,9 @@ export const query = async (query: GreetingDto) => {
     // Check to see if we've already enrolled the user.
     const identity = await wallet.get(query.appUser);
     if (!identity) {
-      console.log(
-        `An identity for the user ${query.appUser} does not exist in the wallet`,
-      );
-      console.log(`Please first register the user ${query.appUser}`);
-      return;
+      msg = `An identity for the user ${query.appUser} does not exist in the wallet;Please first register the user ${query.appUser}`;
+      console.log(msg);
+      return msg;
     }
 
     // Create a new gateway for connecting to our peer node.
@@ -48,7 +48,8 @@ export const query = async (query: GreetingDto) => {
     );
     return result.toString();
   } catch (error) {
-    console.error(`Failed to evaluate transaction: ${error}`);
-    return error;
+    msg = `Failed to evaluate transaction: ${error}`;
+    console.error(msg);
+    return msg;
   }
 };
