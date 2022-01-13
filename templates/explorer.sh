@@ -90,7 +90,7 @@ spec:
                 "id": "admin",
                 "password": "adminpw"
               },
-              "enableAuthentication": true,
+              "enableAuthentication": false,
               "organization": "Org1MSP",
               "connection": {
                 "timeout": {
