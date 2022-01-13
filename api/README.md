@@ -9,3 +9,9 @@ HLF_ORG_CA   # default ca.org1
 ```
 
 Built with [NestJS](https://nestjs.com/).
+
+## docker image push
+```shell
+docker login
+docker push opendco/hlf-api:v1
+```

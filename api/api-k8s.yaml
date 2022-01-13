@@ -47,7 +47,7 @@ spec:
               - key: tlsca-cert.pem
                 path: tlsca-cert.pem
       containers:
-        - image: blockchaindio/hlf-api
+        - image: opendco/hlf-api
           name: hlf-api
           resources: {}
           env:
