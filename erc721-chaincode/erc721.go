@@ -15,6 +15,7 @@ const approvalPrefix = "approval"
 // Define key names for options
 const nameKey = "name"
 const symbolKey = "symbol"
+const TokenDataLen = 100
 
 // ERC721Contract contract for handling writing and reading from the world state
 type ERC721Contract struct {
@@ -425,14 +426,26 @@ func (sc *ERC721Contract) SetOption(ctx contractapi.TransactionContextInterface,
  *
  * @param {Context} ctx the transaction context
  * @param {String} tokenId Unique ID of the non-fungible token to be minted
- * @param {[]String} tokenURI URI containing metadata of the minted non-fungible token
 //TODO test
  * @returns {Object} Return the non-fungible token object
 */
-func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInterface, tokenId string, tokenURI []string, tokenData map[string]interface{}, name string, description string) (NFT, error) {
+func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInterface, nftStr string) (NFT, error) {
+	var err error
+	var nft NFT
+	err = json.Unmarshal([]byte(nftStr), &nft)
+	if err != nil {
+		log.Printf("failed to json.Unmarshal([]byte(nftStr), &nft) in MintWithTokenURI: %v", err)
+		return NFT{}, err
+	}
+
+	if len(nft.TokenData) > TokenDataLen {
+		err = errors.New("len(recordData.TokenData) > (TokenDataLen=100),len is must <= 100")
+		log.Print(err)
+		return NFT{}, err
+	}
 
 	// Check minter authorization - this sample assumes Org1 is the issuer with privilege to mint a new token
-	var err error
+
 	clientMSPID, _ := ctx.GetClientIdentity().GetMSPID()
 	if clientMSPID != "Org1MSP" {
 		err = errors.New(`client is not authorized to mint new tokens`)
@@ -443,6 +456,7 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 	// Get ID of submitting client identity
 	minter, _ := ctx.GetClientIdentity().GetID()
 
+	tokenId := nft.TokenId
 	// Check if the token to be minted does not exist
 	exists := _nftExists(ctx, tokenId)
 	if exists {
@@ -451,7 +465,6 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 		return NFT{}, err
 	}
 	//TODO:approved is false ?
-	nft := NFT{minter, tokenId, tokenURI, tokenData, false, name, description}
 	attrs := []string{tokenId}
 	nftKey, _ := ctx.GetStub().CreateCompositeKey(nftPrefix, attrs)
 
