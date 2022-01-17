@@ -94,12 +94,14 @@ EOF
 invoke() {
   CCNAME=$1
   CHANNEL_ID=$2
+  CTOR=$3
+
   cat <<EOF
 echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["create", "greeting", "Hello, World!"]}' \
+  --ctor '${CTOR}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
@@ -116,32 +118,13 @@ EOF
 query() {
   CCNAME=$1
   CHANNEL_ID=$2
+  CTOR=$3
+
   cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
---ctor '{"Args":["read", "greeting"]}' \
+--ctor '${CTOR}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
-}
 
-update() {
-  CCNAME=$1
-  CHANNEL_ID=$2
-  cat <<EOF
-echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
-peer chaincode invoke \
-  --channelID ${CHANNEL_ID} \
-  --name ${CCNAME} \
-  --ctor '{"Args":["update", "greeting", "Hello, Blockchain!"]}' \
-  --waitForEvent \
-  --waitForEventTimeout 300s \
-  --cafile \$ORDERER_TLS_ROOTCERT_FILE \
-  --tls true -o orderer.org1:7050 \
-  --peerAddresses peer0.org1:7051 \
-  --peerAddresses peer0.org2:7051 \
-  --peerAddresses peer0.org3:7051  \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
-EOF
 }

@@ -40,10 +40,10 @@ Chaincode lifecycle
 #
 ./hlf.sh explorerAndAPI
 
-./hlf.sh ccInvoke         # Creates greeting="Hello, World!"
-./hlf.sh ccQuery          # Reads greeting value
-./hlf.sh ccInvokeUpdate   # Updates greeting="Hello, Blockchain!"
-./hlf.sh ccQuery          # Reads greeting value to check update succeeded
+./hlf.sh ccInvoke ''         # 
+./hlf.sh ccQuery  ''        # 
+./hlf.sh ccInvoke ''   # 
+./hlf.sh ccQuery   ''       # 
 ```
 ## Network erc721
 ```shell
