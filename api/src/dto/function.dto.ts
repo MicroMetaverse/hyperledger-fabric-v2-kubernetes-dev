@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsString } from 'class-validator';
 
-export class GreetingDto {
+export class FunctionDto {
   @IsString()
   @ApiProperty({
     description: 'Fabric App username',

@@ -590,6 +590,38 @@ func _balanceOf(ctx contractapi.TransactionContextInterface, owner string) int {
 	return balance
 }
 
+func (sc *ERC721Contract) NFTListOf(ctx contractapi.TransactionContextInterface, owner string) []NFT {
+	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
+	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
+	var nftsSlice []NFT
+	var balance = 0
+	keys := []string{owner}
+	iterator, err := ctx.GetStub().GetStateByPartialCompositeKey(balancePrefix, keys)
+	if err != nil {
+		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", owner)
+		return nftsSlice
+	}
+	// Count the number of returned composite keys
+	result, _ := iterator.Next()
+
+	for result != nil {
+		balance++
+		//nft
+		var nft NFT
+		jsonErr := json.Unmarshal(result.Value, &nft)
+		if jsonErr != nil {
+			log.Printf("json.Unmarshal(result.Value, &nft): %v", err)
+		}
+		nftsSlice = append(nftsSlice, nft)
+
+		result, _ = iterator.Next()
+	}
+	if balance != len(nftsSlice) {
+		log.Printf("balance != len(nftsSlice)")
+	}
+	return nftsSlice
+}
+
 /**
  * ClientAccountBalance returns the balance of the requesting client's account.
  *

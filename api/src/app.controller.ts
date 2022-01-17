@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { EnrollAdminDto, GreetingDto, RegisterUserDto } from './dto';
+import { EnrollAdminDto, FunctionDto, RegisterUserDto } from './dto';
 
 @Controller()
 export class AppController {
@@ -21,17 +21,17 @@ export class AppController {
     return await this.appService.registerUser(user);
   }
 
-  @Post('set-greeting')
-  async setGreeting(@Body() greeting: GreetingDto): Promise<any> {
-    return await this.appService.setGreeting(greeting);
+  @Post('set-data')
+  async setData(@Body() fun: FunctionDto): Promise<any> {
+    return await this.appService.invoke(fun);
   }
 
-  @Post('get-greeting')
-  async balanceOf(@Body() greeting: GreetingDto): Promise<any> {
-    return await this.appService.getGreeting(greeting);
+  @Post('get-data')
+  async getData(@Body() fun: FunctionDto): Promise<any> {
+    return await this.appService.query(fun);
   }
-  @Post('update-greeting')
-  async updateGreeting(@Body() greeting: GreetingDto): Promise<any> {
-    return await this.appService.setGreeting(greeting);
+  @Post('update-data')
+  async updateData(@Body() fun: FunctionDto): Promise<any> {
+    return await this.appService.invoke(fun);
   }
 }

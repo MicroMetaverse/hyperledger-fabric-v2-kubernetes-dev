@@ -1,9 +1,9 @@
 import { Gateway, Wallets } from 'fabric-network';
 import * as path from 'path';
 import * as fs from 'fs';
-import { GreetingDto } from 'src/dto';
+import { FunctionDto } from 'src/dto';
 
-export const query = async (query: GreetingDto) => {
+export const query = async (query: FunctionDto) => {
   let msg = ``;
 
   try {

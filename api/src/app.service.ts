@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EnrollAdminDto, GreetingDto, RegisterUserDto } from './dto';
+import { EnrollAdminDto, FunctionDto, RegisterUserDto } from './dto';
 import { enrollAdmin, invoke, query, registerUser } from './fabric';
 
 @Injectable()
@@ -16,12 +16,11 @@ export class AppService {
     return await registerUser(user);
   }
 
-  async getGreeting(greeting: GreetingDto): Promise<any> {
-    return await query(greeting);
-    // console.log(...greeting.args)
+  async query(fun: FunctionDto): Promise<any> {
+    return await query(fun);
   }
 
-  async setGreeting(greeting: GreetingDto): Promise<any> {
-    return await invoke(greeting);
+  async invoke(fun: FunctionDto): Promise<any> {
+    return await invoke(fun);
   }
 }

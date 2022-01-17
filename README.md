@@ -17,7 +17,7 @@
 
 ![hyperledger-fabric-network](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/blockchaind/hyperledger-fabric-v2-kubernetes-dev/master/network-diagram.puml)
 
-## 1 Network KV
+## Network KV
 
 Start
 
@@ -45,7 +45,7 @@ Chaincode lifecycle
 ./hlf.sh ccInvokeUpdate   # Updates greeting="Hello, Blockchain!"
 ./hlf.sh ccQuery          # Reads greeting value to check update succeeded
 ```
-## 2 Network erc721
+## Network erc721
 ```shell
 ./hlf-erc721.sh up
 ./hlf-erc721.sh joinChannel
@@ -68,10 +68,14 @@ Chaincode lifecycle
 #
 ./hlf-erc721.sh down
 ```
-## 3 Explorer & Rest API
+## Explorer & Rest API
 
 Start explorer db
 
 explorer should now be available at <http://localhost:8080>
 
 Access API Swagger UI at <http://localhost:3000/swagger>
+
+## 加密问题
+###1.通过加密机制实现自定义保护。
+###2.TODO:链码自行完成加密解密。

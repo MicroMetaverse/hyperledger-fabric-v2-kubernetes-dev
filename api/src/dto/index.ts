@@ -1,5 +1,5 @@
 import { EnrollAdminDto } from './enroll-admin.dto';
 import { RegisterUserDto } from './register-user.dto';
-import { GreetingDto } from './greeting.dto';
+import { FunctionDto } from './function.dto';
 
-export { EnrollAdminDto, RegisterUserDto, GreetingDto };
+export { EnrollAdminDto, RegisterUserDto, FunctionDto };
