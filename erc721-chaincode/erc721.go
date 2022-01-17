@@ -22,10 +22,13 @@ type ERC721Contract struct {
 }
 
 type NFT struct {
-	TokenId  string `json:"tokenId"`
-	Owner    string `json:"owner"`
-	TokenURI string `json:"tokenURI"`
-	Approved bool   `json:"approved"`
+	Owner       string                 `json:"owner"`
+	TokenId     string                 `json:"tokenId"`
+	TokenURI    []string               `json:"TokenURI"`
+	TokenData   map[string]interface{} `json:"TokenData,omitempty"`
+	Approved    bool                   `json:"approved"`
+	Name        string                 `json:"name"`
+	Description string                 `json:"description,omitempty"`
 }
 
 // TransferEvent event provides an organized struct for emitting events
@@ -356,7 +359,7 @@ func (sc *ERC721Contract) Symbol(ctx contractapi.TransactionContextInterface) st
  * @param {string} tokenId The identifier for a non-fungible token
  * @returns {String} Returns the URI of the token
  */
-func (sc *ERC721Contract) TokenURI(ctx contractapi.TransactionContextInterface, tokenId string) string {
+func (sc *ERC721Contract) TokenURI(ctx contractapi.TransactionContextInterface, tokenId string) []string {
 	nft, _ := _readNFT(ctx, tokenId)
 	return nft.TokenURI
 }
@@ -422,10 +425,11 @@ func (sc *ERC721Contract) SetOption(ctx contractapi.TransactionContextInterface,
  *
  * @param {Context} ctx the transaction context
  * @param {String} tokenId Unique ID of the non-fungible token to be minted
- * @param {String} tokenURI URI containing metadata of the minted non-fungible token
+ * @param {[]String} tokenURI URI containing metadata of the minted non-fungible token
+//TODO test
  * @returns {Object} Return the non-fungible token object
- */
-func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInterface, tokenId string, tokenURI string) (NFT, error) {
+*/
+func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInterface, tokenId string, tokenURI []string, tokenData map[string]interface{}, name string, description string) (NFT, error) {
 
 	// Check minter authorization - this sample assumes Org1 is the issuer with privilege to mint a new token
 	var err error
@@ -447,7 +451,7 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 		return NFT{}, err
 	}
 	//TODO:approved is false ?
-	nft := NFT{tokenId, minter, tokenURI, false}
+	nft := NFT{minter, tokenId, tokenURI, tokenData, false, name, description}
 	attrs := []string{tokenId}
 	nftKey, _ := ctx.GetStub().CreateCompositeKey(nftPrefix, attrs)
 
