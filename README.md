@@ -5,6 +5,14 @@
 - Kubernetes cluster with at least 4GB memory and 2 vCPUs (tested on IBM Cloud free tier IKS)
 - kubectl available on path and configured to use a cluster
 - Fabric binaries available on path
+- ```shell
+wget https://github.com/hyperledger/fabric/releases/download/v2.3.3/hyperledger-fabric-linux-amd64-2.3.3.tar.gz
+tar -xzf hyperledger-fabric-linux-amd64-2.3.3.tar.gz
+# Move to the bin path
+mv bin/* /bin
+# Check that you have successfully installed the tools by executing
+configtxgen --version
+```
 
 ## Architechture
 
