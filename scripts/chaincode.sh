@@ -21,8 +21,8 @@ echo "set go goproxy,end"
 echo "---go get -d ${CCURL}"
 go get -d ${CCURL}
 echo "---go get -d ${CCURL}"
-
-# no code in src,  git clone  xxx
+# go get or 源码编译二选一
+# no code in src,  git clone xxx
 rm -rf hyperledger-fabric-v2-kubernetes-dev
 git clone  https://gitclone.com/github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev.git
 
