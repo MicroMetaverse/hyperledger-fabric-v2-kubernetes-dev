@@ -21,9 +21,9 @@ echo "---go get -d ${CCURL}"
 go get -d ${CCURL}
 echo "---go get -d ${CCURL}"
 
-# no code in src,  git clone https://hub.fastgit.org/smallverse/hyperledger-fabric-v2-kubernetes-dev.git
+# no code in src,  git clone xxx
 rm -rf hyperledger-fabric-v2-kubernetes-dev
-git clone https://hub.fastgit.org/smallverse/hyperledger-fabric-v2-kubernetes-dev.git
+git clone  https://gitclone.com/github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev.git
 
 echo "---ls---"
 ls
