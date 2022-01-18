@@ -21,6 +21,7 @@ echo "---go get -d ${CCURL}"
 go get -d ${CCURL}
 echo "---go get -d ${CCURL}"
 
+pwd
 # no code in src,  git clone xxx
 rm -rf hyperledger-fabric-v2-kubernetes-dev
 git clone  https://gitclone.com/github.com/smallverse/hyperledger-fabric-v2-kubernetes-dev.git
@@ -31,10 +32,12 @@ echo "---ls---"
 
 # https://blog.csdn.net/bean_business/article/details/110008244
 cd ${LOCAL_CHAINCODE_PATH}
+pwd
 go env -w GOPROXY=https://goproxy.io,direct
 go env -w GO111MODULE=on
 go mod vendor
 cd -
+pwd
 
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${LOCAL_CHAINCODE_PATH} --lang ${LANG} --label ${LABEL}
 peer lifecycle chaincode install ${CCNAME}.tar.gz
