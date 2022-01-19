@@ -17,7 +17,7 @@ const TokenDataLen = 100
 
 type RecordData struct {
 	Key         string                 `json:"key"`
-	TokenData   map[string]interface{} `json:"TokenData,omitempty"`
+	TokenData   map[string]interface{} `json:"tokenData,omitempty"`
 	Name        string                 `json:"name"`
 	Description string                 `json:"description,omitempty"`
 }

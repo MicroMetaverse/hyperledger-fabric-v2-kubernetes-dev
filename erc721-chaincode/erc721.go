@@ -25,8 +25,8 @@ type ERC721Contract struct {
 type NFT struct {
 	Owner       string                 `json:"owner"`
 	TokenId     string                 `json:"tokenId"`
-	TokenURI    []string               `json:"TokenURI"`
-	TokenData   map[string]interface{} `json:"TokenData,omitempty"`
+	TokenURI    []string               `json:"tokenURI"`
+	TokenData   map[string]interface{} `json:"tokenData,omitempty"`
 	Approved    bool                   `json:"approved"`
 	Name        string                 `json:"name"`
 	Description string                 `json:"description,omitempty"`
