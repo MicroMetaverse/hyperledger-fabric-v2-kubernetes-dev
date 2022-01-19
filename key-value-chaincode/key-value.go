@@ -24,10 +24,6 @@ type RecordData struct {
 
 // Create adds a new key with value to the world state
 func (sc *KeyValueContract) Create(ctx contractapi.TransactionContextInterface, key string, value string) (string, error) {
-	return putDataByKey(ctx, key, value)
-}
-
-func putDataByKey(ctx contractapi.TransactionContextInterface, key string, value string) (string, error) {
 	existing, err := ctx.GetStub().GetState(key)
 	if err != nil {
 		return key, fmt.Errorf("unable to interact with world state,key %s", key)
@@ -36,6 +32,10 @@ func putDataByKey(ctx contractapi.TransactionContextInterface, key string, value
 		return key, fmt.Errorf("cannot create world state pair with key %s. Already exists", key)
 	}
 
+	return putData(ctx, key, value, err)
+}
+
+func putData(ctx contractapi.TransactionContextInterface, key string, value string, err error) (string, error) {
 	var recordData RecordData
 	err = json.Unmarshal([]byte(value), &recordData)
 	if err != nil {
@@ -62,7 +62,15 @@ func putDataByKey(ctx contractapi.TransactionContextInterface, key string, value
 
 // Update changes the value with key in the world state
 func (sc *KeyValueContract) Update(ctx contractapi.TransactionContextInterface, key string, value string) (string, error) {
-	return putDataByKey(ctx, key, value)
+	existing, err := ctx.GetStub().GetState(key)
+	if err != nil {
+		return key, fmt.Errorf("unable to interact with world state,key %s", key)
+	}
+	if existing == nil {
+		return key, fmt.Errorf("cannot update world state pair with key %s. Does not exist", key)
+	}
+
+	return putData(ctx, key, value, err)
 }
 
 // Read returns the value at key in the world state
