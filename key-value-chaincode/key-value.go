@@ -15,6 +15,7 @@ type KeyValueContract struct {
 
 const TokenDataLen = 100
 
+//TODO 重构结构体，待测试（注意json格式）
 type RecordData struct {
 	Key         string                 `json:"key"`
 	TokenData   map[string]interface{} `json:"tokenData,omitempty"`

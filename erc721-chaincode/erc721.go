@@ -22,6 +22,7 @@ type ERC721Contract struct {
 	contractapi.Contract
 }
 
+//TODO 重构结构体，待测试（注意json格式）
 type NFT struct {
 	Owner       string                 `json:"owner"`
 	TokenId     string                 `json:"tokenId"`
