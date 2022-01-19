@@ -23,30 +23,30 @@ type RecordData struct {
 }
 
 // Create adds a new key with value to the world state
-func (sc *KeyValueContract) Create(ctx contractapi.TransactionContextInterface, key string, value string) error {
+func (sc *KeyValueContract) Create(ctx contractapi.TransactionContextInterface, key string, value string) (string, error) {
 	return putDataByKey(ctx, key, value)
 }
 
-func putDataByKey(ctx contractapi.TransactionContextInterface, key string, value string) error {
+func putDataByKey(ctx contractapi.TransactionContextInterface, key string, value string) (string, error) {
 	existing, err := ctx.GetStub().GetState(key)
 	if err != nil {
-		return errors.New("unable to interact with world state")
+		return key, fmt.Errorf("unable to interact with world state,key %s", key)
 	}
 	if existing != nil {
-		return fmt.Errorf("cannot create world state pair with key %s. Already exists", key)
+		return key, fmt.Errorf("cannot create world state pair with key %s. Already exists", key)
 	}
 
 	var recordData RecordData
 	err = json.Unmarshal([]byte(value), &recordData)
 	if err != nil {
 		log.Printf("failed to json.Unmarshal([]byte(value), &recordData) in Create: %v", err)
-		return err
+		return key, err
 	}
 
 	if len(recordData.TokenData) > TokenDataLen {
 		err = errors.New("len(recordData.TokenData) > (TokenDataLen=100),len is must <= 100")
 		log.Print(err)
-		return err
+		return key, err
 	}
 
 	var recordDataBytes []byte
@@ -54,14 +54,14 @@ func putDataByKey(ctx contractapi.TransactionContextInterface, key string, value
 	err = ctx.GetStub().PutState(key, recordDataBytes)
 
 	if err != nil {
-		return errors.New("unable to interact with world state")
+		return key, errors.New("unable to interact with world state")
 	}
 
-	return nil
+	return key, nil
 }
 
 // Update changes the value with key in the world state
-func (sc *KeyValueContract) Update(ctx contractapi.TransactionContextInterface, key string, value string) error {
+func (sc *KeyValueContract) Update(ctx contractapi.TransactionContextInterface, key string, value string) (string, error) {
 	return putDataByKey(ctx, key, value)
 }
 
