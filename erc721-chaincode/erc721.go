@@ -465,7 +465,10 @@ func (sc *ERC721Contract) MintWithTokenURI(ctx contractapi.TransactionContextInt
 		log.Printf("failed to GetID in MintWithTokenURI: %v", err)
 		return NFT{}, err
 	}
-	//TODO:approved is false ?
+	//set default,TODO:approved is false ?
+	nft.Approved = false
+	nft.Owner = minter
+
 	attrs := []string{tokenId}
 	nftKey, _ := ctx.GetStub().CreateCompositeKey(nftPrefix, attrs)
 
