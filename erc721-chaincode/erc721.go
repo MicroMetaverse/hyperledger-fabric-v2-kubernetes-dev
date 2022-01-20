@@ -22,15 +22,15 @@ type ERC721Contract struct {
 	contractapi.Contract
 }
 
-//TODO 重构结构体，待测试（注意json格式）
+//（注意json格式）
 type NFT struct {
-	Owner       string                 `json:"owner"`
 	TokenId     string                 `json:"tokenId"`
 	TokenURI    []string               `json:"tokenURI"`
 	TokenData   map[string]interface{} `json:"tokenData,omitempty"`
 	Approved    bool                   `json:"approved"`
 	Name        string                 `json:"name"`
 	Description string                 `json:"description,omitempty"`
+	Owner       string                 `json:"owner,omitempty"`
 }
 
 // TransferEvent event provides an organized struct for emitting events
@@ -611,6 +611,61 @@ func _balanceOf(ctx contractapi.TransactionContextInterface, owner string) int {
 	return balance
 }
 
+func (sc *ERC721Contract) NFTKeyListOf(ctx contractapi.TransactionContextInterface, owner string) []string {
+	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
+	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
+	var nftsSlice []string
+	var balance = 0
+	keys := []string{owner}
+	iterator, err := ctx.GetStub().GetStateByPartialCompositeKey(balancePrefix, keys)
+	if err != nil {
+		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", owner)
+		return nftsSlice
+	}
+	// Count the number of returned composite keys
+	result, _ := iterator.Next()
+
+	for result != nil {
+		balance++
+		//nftkv
+		nftsSlice = append(nftsSlice, result.Key)
+
+		result, _ = iterator.Next()
+	}
+	if balance != len(nftsSlice) {
+		log.Printf("balance != len(nftsSlice)")
+	}
+	return nftsSlice
+}
+
+func (sc *ERC721Contract) NFTValueListOf(ctx contractapi.TransactionContextInterface, owner string) []string {
+	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
+	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
+	var nftsSlice []string
+	var balance = 0
+	keys := []string{owner}
+	iterator, err := ctx.GetStub().GetStateByPartialCompositeKey(balancePrefix, keys)
+	if err != nil {
+		log.Printf("BalanceOf GetStateByPartialCompositeKey balancePrefix key: %s is err", owner)
+		return nftsSlice
+	}
+	// Count the number of returned composite keys
+	result, _ := iterator.Next()
+
+	for result != nil {
+		balance++
+		//nft Value
+		nftsSlice = append(nftsSlice, string(result.Value))
+
+		result, _ = iterator.Next()
+	}
+	if balance != len(nftsSlice) {
+		log.Printf("balance != len(nftsSlice)")
+	}
+	return nftsSlice
+}
+
+//TODO NFTListOf test
 func (sc *ERC721Contract) NFTListOf(ctx contractapi.TransactionContextInterface, owner string) []NFT {
 	// There is a key record for every non-fungible token in the format of balancePrefix.owner.tokenId.
 	// BalanceOf() queries for and counts all records matching balancePrefix.owner.*
