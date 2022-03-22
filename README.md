@@ -86,5 +86,7 @@ explorer should now be available at <http://localhost:8080>
 Access API Swagger UI at <http://localhost:3000/swagger>
 
 ## 加密问题
-###1.通过加密机制实现自定义保护。
-###2.TODO:链码自行完成加密解密。
+```
+1.通过加密机制实现自定义保护。
+2.TODO:链码自行完成加密解密。
+```
