@@ -91,6 +91,9 @@ Access API Swagger UI at <http://localhost:3000/swagger>
 2.TODO:链码自行完成加密解密。
 ```
 
+---
+My implementation for erc20/erc721 (translated from the official nodejs code) Earlier than the official implementation of erc20/erc721
+
 https://github.com/hyperledger/fabric-samples/tree/main/token-erc-20/chaincode-go
 
 https://github.com/hyperledger/fabric-samples/tree/main/token-erc-721/chaincode-go
