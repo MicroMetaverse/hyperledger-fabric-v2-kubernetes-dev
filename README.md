@@ -90,3 +90,6 @@ Access API Swagger UI at <http://localhost:3000/swagger>
 1.通过加密机制实现自定义保护。
 2.TODO:链码自行完成加密解密。
 ```
+
+https://github.com/hyperledger/fabric-samples/tree/main/token-erc-20/chaincode-go
+https://github.com/hyperledger/fabric-samples/tree/main/token-erc-721/chaincode-go
