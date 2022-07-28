@@ -1,5 +1,12 @@
 # Hyperledger Fabric v2 with Raft on Kubernetes
+---
+My implementation for erc20/erc721 (translated from the official nodejs code) Earlier than the official implementation of erc20/erc721
 
+https://github.com/hyperledger/fabric-samples/tree/main/token-erc-20/chaincode-go
+
+https://github.com/hyperledger/fabric-samples/tree/main/token-erc-721/chaincode-go
+
+---
 ## Prerequisites
 
 - Kubernetes cluster with at least 4GB memory and 2 vCPUs (tested on IBM Cloud free tier IKS)
@@ -85,15 +92,10 @@ explorer should now be available at <http://localhost:8080>
 
 Access API Swagger UI at <http://localhost:3000/swagger>
 
-## 加密问题
+## TODO
 ```
-1.通过加密机制实现自定义保护。
-2.TODO:链码自行完成加密解密。
+1.Custom protection through encryption mechanism. (通过加密机制实现自定义保护。)
+2. The chain code does the encryption and decryption itself.(链码自行完成加密解密。)
 ```
 
----
-My implementation for erc20/erc721 (translated from the official nodejs code) Earlier than the official implementation of erc20/erc721
 
-https://github.com/hyperledger/fabric-samples/tree/main/token-erc-20/chaincode-go
-
-https://github.com/hyperledger/fabric-samples/tree/main/token-erc-721/chaincode-go
