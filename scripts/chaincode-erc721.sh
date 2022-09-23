@@ -33,7 +33,10 @@ echo "---ls---"
 # https://blog.csdn.net/bean_business/article/details/110008244
 cd ${LOCAL_CHAINCODE_PATH}
 pwd
-go env -w GOPROXY=https://goproxy.io,direct
+
+#go env -w GOPROXY=https://goproxy.io,direct
+go env -w GOPROXY=https://goproxy.cn,direct
+
 go env -w GO111MODULE=on
 go mod vendor
 cd -
