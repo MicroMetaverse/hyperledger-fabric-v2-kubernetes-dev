@@ -14,7 +14,11 @@ echo "---getting chaincode for ${ORG} ${PEER}"
 go version
 echo "set go goproxy"
 go env -w GO111MODULE=on
-go env -w GOPROXY=https://goproxy.io,direct
+
+#go env -w GOPROXY=https://goproxy.io,direct
+go env -w GOPROXY=https://goproxy.cn,direct
+
+
 go env | grep GOPROXY
 echo "set go goproxy,end"
 
